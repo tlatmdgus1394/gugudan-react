@@ -1,0 +1,74 @@
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GuGuDan</title>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@16/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const GuGuDan = () => {
+        const [first, setFirst] = React.useState(Math.floor(Math.random() * 9));
+        const [second, setSecond] = React.useState(
+          Math.floor(Math.random() * 9)
+        );
+        const [value, setValue] = React.useState("");
+        const [result, setResult] = React.useState("");
+        const [correct, setCorrect] = React.useState(0);
+        const inputRef = React.useRef(null);
+
+        const onSubmit = (e) => {
+          e.preventDefault();
+          if (parseInt(value) === first * second) {
+            setResult((prevResult) => `${value} 정답!`);
+            setFirst(Math.floor(Math.random() * 9));
+            setSecond(Math.floor(Math.random() * 9));
+            setValue("");
+            setCorrect((current) => current + 1);
+            inputRef.current.focus();
+          } else if (parseInt(value) !== first * second) {
+            setResult((prevResult) => `땡! 정답은 ${first * second}`);
+            setFirst(Math.floor(Math.random() * 9));
+            setSecond(Math.floor(Math.random() * 9));
+            setValue("");
+            setCorrect(correct);
+            inputRef.current.focus();
+          }
+        };
+        const onChange = (e) => setValue(e.target.value);
+
+        return (
+          <div>
+            <div>
+              {first}곱하기{second}는?
+            </div>
+            <form onSubmit={onSubmit}>
+              <input
+                ref={inputRef}
+                type="number"
+                onChange={onChange}
+                value={value}
+              />
+              <button>입력</button>
+            </form>
+            <div>{result}</div>
+            <div>정답횟수 : {correct}</div>
+          </div>
+        );
+      };
+    </script>
+    <script type="text/babel">
+      ReactDOM.render(<GuGuDan />, document.querySelector("#root"));
+    </script>
+  </body>
+</html>

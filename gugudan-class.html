@@ -55,8 +55,13 @@
               };
             });
           }
+          this.input.focus();
         };
+
         onChange = (e) => this.setState({ value: e.target.value });
+        onRefInput = (c) => {
+          this.input = c;
+        };
 
         render() {
           return (
@@ -69,6 +74,7 @@
                   type="number"
                   value={this.state.value}
                   onChange={this.onChange}
+                  ref={this.onRefInput} // 리액트로 this.onRefInput을 통해 DOM요소에 접근
                 />
                 <button>입력!</button>
               </form>
